@@ -93,15 +93,28 @@ sudo ln -s /etc/nginx/sites-available/$DOMAIN /etc/nginx/sites-enabled/$DOMAIN
 
 #Download latest Wordpress 
 cd /var/www/$DIR
-sudo wget  http://wordpress.org/latest.zip
+sudo wget  http://wordpress.org/latest.tar.gz
 #unzip downloaded tar file
 sudo tar -xvzf latest.zip
 
-#Create database for Wordpress
+#Create/Edit Wordpress configuration files
+cd wordpress
+sudo cp -rf wp-config-sample.php wp-config.php
+
+#Create database password for Wordpress
 echo "Enter Wordpress User Password \n"
 read PASS
-PASS="Welcome@RtCamp#2014
-sudo mysql -u=$DBUSER -p=$DBPASS -e "create database $DOMAIN_db; GRANT ALL PRIVILEGES ON $DOMAIN_db.* TO rtCampWP@localhost IDENTIFIED BY '$PASS'"
 
-#Create/Edit Wordpress configuration files
+#Edit wp-config.php
+sed "s/username_here/rtCampWP/" /var/www/$DOMAIN/wp-config.php
+sed "s/database_name_here/$DOMAIN_db/" /var/www/$DOMAIN/wp-config.php 
+sed "s/password_here/$PASS/" /var/www/$DOMAIN/wp-config.php
+
+#Create database for Wordpress
+PASS="Welcome@RtCamp#2014
+sudo mysql -u=$DBUSER -p=$DBPASS -e "create database $DOMAIN_db; GRANT ALL PRIVILEGES ON $DOMAIN_db.* TO rtCampWP@localhost IDENTIFIED BY '$PASS';"
+
+
+
+
 
