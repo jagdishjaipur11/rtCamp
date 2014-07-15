@@ -4,12 +4,16 @@
 
 #Update a System
 sudo apt-get update
+sudo apt-get upgrade
+
+#Install Vim editor
+sudo apt-get install vim
 
 #Check Which Software Installed Or not 
 #checking for Nginx and PHP and MYSql. If not Installed than Install
 PHP="php5"
 WS="nginx"
-DB="mysql"
+DB="mysql-server"
 
 for pkg in $PHP $WS $DB; 
 do
@@ -22,8 +26,8 @@ do
   fi
 done
 
-#User Input for Hostname 
-echo "Enter your hostname (Like : example.com) : \n"
+#User Input for Domain Name
+echo "Enter your domain (Like : example.com) : \n"
 read hostname
 
 #Enter Details for hostname in /etc/hosts
@@ -31,3 +35,12 @@ echo " 127.0.0.1     $hostname
      " > /ete/hosts
 
 #Configuration File for hostname of Nginx web Server
+#Nginx server host file placed at /etc/nginx/sites-available/default
+
+#Create new Virtual Hostfile 
+sudo cp /etc/nginx/sites-available/default /etc/nginx/sites-available/example.com
+
+#Set up virtual Host
+
+
+
