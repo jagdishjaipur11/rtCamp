@@ -1,3 +1,4 @@
+#!/bin/bash
 #This is a shell Script tested on Ubuntu 12.04 LTS
 #Pre Requirements
 #Ubuntu 12.04 LTS Operating System
@@ -6,7 +7,7 @@
 OS="`lsb_release -i | cut -d':' -f2 | awk '{print $1}'`"
 
 if [ $OS != "Ubuntu" ];then
-echo "This scripts is created to Work on Ubuntu" 1>&2
+echo "This scripts is works on only ubuntu OS" 1>&2
 echo "Quiting..." 1>&2
 exit 1
 
