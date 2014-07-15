@@ -40,6 +40,13 @@ read DOMAIN
 echo "127.0.0.1     $DOMAIN 
      " >> /etc/hosts
 
+#Make working directory 
+sudo mkdir -p /var/www/$DOMAIN
+#Grant Permission
+sudo chmod -R 755 /var/www
+#Change ownership
+sudo chown -R  www-data:www-data /var/www/$DOMAIN
+
 #Configuration File for hostname of Nginx web Server
 #Nginx server host file placed at /etc/nginx/sites-available/default
 
@@ -47,7 +54,15 @@ echo "127.0.0.1     $DOMAIN
 sudo cp /etc/nginx/sites-available/default /etc/nginx/sites-available/$DOMAIN
 
 #Set up virtual Host
-echo "
+echo "server {
+	listen   80; ## listen for ipv4; this line is default and implied
+	#listen   [::]:80 default ipv6only=on; ## listen for ipv6
 
+	root /var/www/$DOMAIN;
+	index index.html index.htm;
+
+	# Make site accessible from http://localhost/
+	server_name $DOMAIN;
+} " >> /etc/nginx/sites-available/$DOMAIN
 
 
