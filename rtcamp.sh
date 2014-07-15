@@ -21,7 +21,14 @@ PHP="php5-fpm"
 WS="nginx"
 DB="mysql-server"
 TAR="tar"
+DBUSER="root"
+DBPASS="rtCamp@LinuxWorld!"
 
+# For MySql DATABASE
+sudo debconf-set-selections <<< 'mysql-server mysql-server/root_password password rtCamp@LinuxWorld!'
+sudo debconf-set-selections <<< 'mysql-server mysql-server/root_password_again password rtCamp@LinuxWorld!'
+
+#Checking start for Packages
 for pkg in $PHP $WS $DB; 
 do
   if dpkg --get-selections | grep -q "^$pkg[[:space:]]*install$" >/dev/null; then
@@ -91,8 +98,6 @@ sudo wget  http://wordpress.org/latest.zip
 sudo tar -xvzf latest.zip
 
 #Create database for Wordpress
-DBUSER=root
-DBPASS=rtCamp@LinuxWorld!
 echo "Enter Wordpress User Password \n"
 read PASS
 PASS="Welcome@RtCamp#2014
