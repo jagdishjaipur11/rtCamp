@@ -37,8 +37,8 @@ echo "Enter your domain (Like : example.com) : \n"
 read DOMAIN
 
 #Enter Details for hostname in /etc/hosts
-echo " 127.0.0.1     $DOMAIN 
-     " >> /ete/hosts
+echo "127.0.0.1     $DOMAIN 
+     " >> /etc/hosts
 
 #Configuration File for hostname of Nginx web Server
 #Nginx server host file placed at /etc/nginx/sites-available/default
