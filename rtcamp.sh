@@ -93,5 +93,7 @@ sudo tar -xvzf latest.zip
 #Create database for Wordpress
 DBUSER=root
 DBPASS=rtCamp@LinuxWorld!
+echo "Enter Wordpress User Password \n"
+read PASS
 PASS="Welcome@RtCamp#2014
 sudo mysql -u=$DBUSER -p=$DBPASS -e "create database $DOMAIN_db; GRANT ALL PRIVILEGES ON $DOMAIN_db.* TO rtCampWP@localhost IDENTIFIED BY '$PASS'"
