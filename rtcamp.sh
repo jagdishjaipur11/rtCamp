@@ -8,7 +8,7 @@ OS="`lsb_release -i | cut -d':' -f2 | awk '{print $1}'`"
 
 if [ $OS != "Ubuntu" ];then
 echo "This scripts is works on only ubuntu OS" 1>&2
-echo "Quiting..." 1>&2
+echo "Exit ....." 1>&2
 exit 1
 
 #Update a System
@@ -20,6 +20,7 @@ sudo apt-get upgrade
 PHP="php5-fpm"
 WS="nginx"
 DB="mysql-server"
+TAR="tar"
 
 for pkg in $PHP $WS $DB; 
 do
@@ -40,12 +41,13 @@ read DOMAIN
 echo "127.0.0.1     $DOMAIN 
      " >> /etc/hosts
 
-#Make working directory 
-sudo mkdir -p /var/www/$DOMAIN
+#Make working directory
+DIR="rtCamp"
+sudo mkdir -p /var/www/$DIR
 #Grant Permission
 sudo chmod -R 755 /var/www
 #Change ownership
-sudo chown -R  www-data:www-data /var/www/$DOMAIN
+sudo chown -R  www-data:www-data /var/www/$DIR
 
 #Configuration File for hostname of Nginx web Server
 #Nginx server host file placed at /etc/nginx/sites-available/default
@@ -58,11 +60,37 @@ echo "server {
 	listen   80; ## listen for ipv4; this line is default and implied
 	#listen   [::]:80 default ipv6only=on; ## listen for ipv6
 
-	root /var/www/$DOMAIN;
+	root /var/www/$DIR;
 	index index.html index.htm;
 
 	# Make site accessible from http://localhost/
 	server_name $DOMAIN;
+	
+	error_page 404 /404.html;
+	
+	error_page 500 502 503 504 /50x.html;
+	location = /50x.html {
+		root /usr/share/nginx/www;
+	}
+
+	location ~ \.php$ {
+		fastcgi_pass unix:/var/run/php5-fpm.sock;
+		fastcgi_index index.php;
+		include fastcgi_params;
+	}
+
 } " >> /etc/nginx/sites-available/$DOMAIN
 
+#Enable example.com site
+sudo ln -s /etc/nginx/sites-available/$DOMAIN /etc/nginx/sites-enabled/$DOMAIN
 
+#Download latest Wordpress 
+cd /var/www/$DIR
+sudo wget  http://wordpress.org/latest.zip
+#unzip downloaded tar file
+sudo tar -xvzf latest.zip
+
+#Create database for Wordpress
+DBUSER=root
+DBPASS=rtCamp@LinuxWorld!
+sudo mysql --user=$DBUSER --password=$DBPASS  
