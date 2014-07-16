@@ -112,7 +112,8 @@ sed "s/password_here/$PASS/" /var/www/$DOMAIN/wp-config.php
 
 #Create database for Wordpress
 PASS="Welcome@RtCamp#2014
-sudo mysql -u=$DBUSER -p=$DBPASS -e "create database $DOMAIN_db; GRANT ALL PRIVILEGES ON $DOMAIN_db.* TO rtCampWP@localhost IDENTIFIED BY '$PASS';"
+sudo mysql -u=$DBUSER -p=$DBPASS -e "create database $DOMAIN_db; GRANT ALL PRIVILEGES ON $DOMAIN_db.* TO rtCampWP@localhost IDENTIFIED BY '`$PASS`';"
+
 
 
 
